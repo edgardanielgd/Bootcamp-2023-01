@@ -20,20 +20,46 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-}).middleware("auth");
-
 Route.group(
   () => {
     Route.post("/register", "AuthController.register");
     Route.post("/login", "AuthController.login");
 
-    Route.group(
-      () => {
-        Route.get("/book", "BooksController.index");
-        Route.post("/book", "BooksController.store");
-      }
-    ).middleware("auth");
+    Route.get("/book", "BooksController.indexBook").middleware([
+      "auth","customAuth:editor,reader"
+    ]);
+    Route.get("/book/:id", "BooksController.indexBookById").middleware([
+      "auth","customAuth:editor,reader"
+    ]);
+    Route.post("/book", "BooksController.storeBook").middleware([
+      "auth","customAuth:editor"
+    ]);;
+    Route.put("/book/:id", "BooksController.editBook").middleware([
+      "auth","customAuth:editor"
+    ]);;
+    Route.delete("/book/:id", "BooksController.deleteBook").middleware([
+      "auth","customAuth:editor"
+    ]);
+
+    Route.get("/user", "UsersController.indexUser");
+    Route.get("/user/:id", "UsersController.indexUserById");
+    Route.put("/user/:id", "UsersController.editUser");
+    Route.delete("/user/:id", "UsersController.deleteUser");
+
+    Route.get("/perfil", "PerfilsController.perfilIndex").middleware([
+      "auth","customAuth"
+    ]);
+    Route.get("/perfil/:id", "PerfilsController.perfilIndexById").middleware([
+      "auth","customAuth"
+    ]);
+    Route.post("/perfil", "PerfilsController.perfilStore"); // .middleware("customAuth")
+
+    Route.put("/perfil/:id", "PerfilsController.perfilEdit").middleware([
+      "auth","customAuth"
+    ]);
+    Route.delete("/perfil/:id", "PerfilsController.perfilDelete").middleware([
+      "auth","customAuth"
+    ]);
+
   }
 ).prefix("api")

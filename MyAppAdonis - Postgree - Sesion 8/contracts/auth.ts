@@ -5,7 +5,7 @@
  * file.
  */
 
-import apitokens from 'App/Models/apitokens'
+import apitokens from 'App/Models/User'
 
 declare module '@ioc:Adonis/Addons/Auth' {
   /*
