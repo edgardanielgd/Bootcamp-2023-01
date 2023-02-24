@@ -11,8 +11,9 @@ export default class AuthController {
                 'usr_departamento', 'per_id'
             ]
         )
-
-        if( ! this.validateUser( userData.usr_documento ) ) {
+        const validationResult = await this.validateUser( userData.usr_documento )
+        if( ! validationResult  ) {
+            console.log("ola?")
             return response.badRequest( { message: 'El documento ya existe' } )
         }
 

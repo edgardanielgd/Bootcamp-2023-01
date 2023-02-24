@@ -12,13 +12,20 @@ export default class BooksController {
         return book
     }
 
-    public async storeBook({ request }: HttpContextContract) {
+    public async storeBook({ request, auth }: HttpContextContract) {
         const book_data = request.only(
             [
                 'book_title', 'book_editorial', 'book_formato', 'book_paginas'
             ]
         )
-        const book = await Book.create(book_data)
+        const usr_id = auth.user?.usr_id;
+        if (!usr_id) {
+            return { message: 'No se ha encontrado el usuario' }
+        }
+        const book = await Book.create({
+            ...book_data,
+            usr_id
+        })
         return book
     }
 

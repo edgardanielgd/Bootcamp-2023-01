@@ -23,7 +23,7 @@ export default class UsuariosController {
             ]
         )
 
-        if( ! this.validateUser( user_data.usr_documento ) ) {
+        if( ! await this.validateUser( user_data.usr_documento ) ) {
             return response.badRequest( { message: 'El documento ya existe' } )
         }
 
@@ -52,6 +52,7 @@ export default class UsuariosController {
 
     private async validateUser( user_identification : number ) {
         const user = await User.query().where('usr_documento', user_identification)
+        
         if( user ) {
             return false
         }
