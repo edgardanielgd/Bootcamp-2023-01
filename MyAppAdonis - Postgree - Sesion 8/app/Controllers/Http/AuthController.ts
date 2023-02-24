@@ -46,8 +46,8 @@ export default class AuthController {
         }
     }
 
-    private async validateUser( user_identification : number ) {
-        const user = await User.query().where('usr_documento', user_identification)
+    private async validateUser( user_identification : string ) {
+        const user = await User.query().where('usr_documento', user_identification )
         if( user ) {
             return false
         }
