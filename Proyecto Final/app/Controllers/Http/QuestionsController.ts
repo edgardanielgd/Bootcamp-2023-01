@@ -20,4 +20,52 @@ export default class QuestionsController {
         const question = await Question.all();
         return question;
     }
+
+    public async getPregunta({params}: HttpContextContract){
+        const question = await Question.find(params.id);
+        return question;
+    }
+
+    public async update({request, params}: HttpContextContract){
+        const preguntaObj = await Question.find(params.id);
+
+        if( !preguntaObj ){
+            return {
+                state: false,
+                msg: "Pregunta no encontrada"
+            }
+        }
+
+        const {
+            pregunta
+        } = request.all();
+
+        pregunta.question = pregunta;
+        pregunta.state = true;
+
+        await pregunta.save();
+        return{
+            state : true,
+            pregunta, "msg": "Pregunta actualizada"
+        }
+    }
+
+    public async delete({params}: HttpContextContract){
+        const question = await Question.find(params.id);
+
+        if( !question ){
+            return {
+                state: false,
+                msg: "Pregunta no encontrada"
+            }
+        }
+
+        question.delete();
+        return{
+            state : true,
+            question, 
+            "msg": "Pregunta eliminada"
+        }
+    }
+    
 }

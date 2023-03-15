@@ -11,6 +11,7 @@ export default class Users extends BaseSchema {
       table.string('surname', 255).notNullable()
       table.string('second_sur_name', 255).notNullable()
       table.integer('document_type').notNullable()
+      table.string('document_number', 255).notNullable().unique()
       table.string('email', 255).notNullable().unique()
       table.string('password', 180).notNullable()
       table.integer('rol_id').notNullable()

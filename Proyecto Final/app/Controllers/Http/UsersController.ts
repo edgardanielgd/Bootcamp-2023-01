@@ -72,6 +72,7 @@ export default class UsersController {
             "message": "Ingreso exitoso"
           })
         } catch (error) {
+          console.log( error )
           response.json({
             state : false,
             "msg": "contraseña o email invalido"

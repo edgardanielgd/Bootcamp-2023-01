@@ -1,9 +1,16 @@
-import { test } from '@japa/runner'
+import axios from 'axios'
+import Env from '@ioc:Adonis/Core/Env'
 
-test('login page', async ({ client }) => {
-    const response = await client.post('/api/auth/login')
-    .field('name', 'test')
-    
-    response.assertStatus(200)
-    response.assertBodyContains({ login: 'page' })
-})
+export async function obtenerToken() {
+    const endpoint = '/api/v1/login';
+    const body = {
+        email: 'edgonzalezdi@unal.edu.co',
+        password: '12345678'
+    }
+    const response = await axios.post(
+        `${Env.get("PATH_APP") + endpoint}`, 
+        body
+    );
+
+    return response.data['token'];
+}

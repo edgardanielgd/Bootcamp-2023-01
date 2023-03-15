@@ -19,4 +19,44 @@ export default class RolesController {
         const rol = await Rol.all();
         return rol;
     }
+
+    public async getRol({params}: HttpContextContract){
+        const rol = await Rol.find(params.id);
+        return rol;
+    }
+
+    public async update({request, params}: HttpContextContract){
+        const rol = await Rol.find(params.id);
+
+        if( !rol ){
+            return {
+                state: false,
+                msg: "Rol no encontrado"
+            }
+        }
+
+        const {
+            name
+        } = request.all();
+
+        rol.name = name;
+        rol.state = true;
+
+        await rol.save();
+        return{rol, "msg": "Rol actualizado"}
+    }
+
+    public async delete({params}: HttpContextContract){
+        const rol = await Rol.find(params.id);
+
+        if( !rol ){
+            return {
+                state: false,
+                msg: "Rol no encontrado"
+            }
+        }
+
+        rol.delete();
+        return{rol, "msg": "Rol eliminado"}
+    }
 }

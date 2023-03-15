@@ -21,4 +21,45 @@ export default class FormsController {
         const form = await Form.all();
         return form;
     }
+
+    public async getFormulario({params}: HttpContextContract){
+        const form = await Form.find(params.id);
+        return form;
+    }
+
+    public async update({request, params}: HttpContextContract){
+        const form = await Form.find(params.id);
+
+        if( !form ){
+            return {
+                state: false,
+                msg: "Formulario no encontrado"
+            }
+        }
+
+        const {
+            answer_id, student_id
+        } = request.all();
+
+        form.answer_id = answer_id;
+        form.student_id = student_id;
+        form.state = true;
+
+        await form.save();
+        return{form, "msg": "Formulario actualizado"}
+    }
+
+    public async delete({params}: HttpContextContract){
+        const form = await Form.find(params.id);
+
+        if( !form ){
+            return {
+                state: false,
+                msg: "Formulario no encontrado"
+            }
+        }
+
+        form.delete();
+        return{form, "msg": "Formulario eliminado"}
+    }
 }
